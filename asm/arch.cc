@@ -1,5 +1,4 @@
 #include "arch.h"
-#include <hash_map>
 
 Asm *Asm::_instance = NULL;
 
@@ -7,13 +6,15 @@ Asm *Asm::Instance() {
     if (_instance == NULL) {
         _instance = new Asm();
     }
+
+    return _instance;
 }
 
 const uint64_t featmax[] = {
-    1<<64 - 1,
-    1<<64 - 1,
-    1<<64 - 1,
-    1<<64 - 1,
+    ULLONG_MAX,
+    ULLONG_MAX,
+    ULLONG_MAX,
+    ULLONG_MAX,
 };
 
 
