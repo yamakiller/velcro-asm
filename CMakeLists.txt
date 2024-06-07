@@ -19,24 +19,44 @@ IF (CMAKE_SYSTEM_NAME MATCHES "Windows")
     #在Windows平台下值考虑MSVC编译器
     MESSAGE(STATUS "Platform Window")
 
-    MESSAGE(STATUS "Compile Tool MSVC")
-    ADD_DEFINITIONS(-D_CRT_SECURE_NOWARNINGS)
-    #这是为UNICODE编码模式
-    ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
+    IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+        MESSAGE(STATUS "Compile Tool mingw64")
+
+        SET(CMAKE_CXX_COMPILER g++)
+        SET(CMAKE_C_COMPILER gcc)
     
-    SET(CMAKE_CXX_STANDARD 17)
-    SET(CMAKE_C_STANDARD 17)
-    SET(CMAKE_CXX_FLAGS_DEBUG	"/D_DEBUG /MDd /Zi /Ob0 /Od /RTC1")
-    SET(CMAKE_CXX_FLAGS_RELEASE	"/MD /O2 /Ob2 /D NDEBUG")
+        SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
+        SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
+    ELSE()
+        MESSAGE(STATUS "Compile Tool msvc")
+        ADD_DEFINITIONS(-D_CRT_SECURE_NOWARNINGS)
+        #这是为UNICODE编码模式
+        ADD_DEFINITIONS(-DUNICODE -D_UNICODE)
+        
+        SET(CMAKE_CXX_STANDARD 17)
+        SET(CMAKE_C_STANDARD 17)
+        SET(CMAKE_CXX_FLAGS_DEBUG	"/D_DEBUG /MDd /Zi /Ob0 /Od /RTC1")
+        SET(CMAKE_CXX_FLAGS_RELEASE	"/MD /O2 /Ob2 /D NDEBUG")
 
-    ADD_LINK_OPTIONS(/SAFESEH:NO)
+        ADD_LINK_OPTIONS(/SAFESEH:NO)
 
-    ADD_COMPILE_OPTIONS("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-    ADD_COMPILE_OPTIONS("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+        ADD_COMPILE_OPTIONS("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+        ADD_COMPILE_OPTIONS("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
-    ADD_COMPILE_OPTIONS(/Zc:preprocessor /wd5105)
+        ADD_COMPILE_OPTIONS(/Zc:preprocessor /wd5105)
+    ENDIF()
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
     MESSAGE(STATUS "Platform Linux")
+    MESSAGE(STATUS "Compile Tool gcc/g++")
+
+    SET(CMAKE_CXX_COMPILER g++)
+    SET(CMAKE_C_COMPILER gcc)
+
+    SET(CMAKE_CXX_FLAGS_DEBUG	"-std=c++17 -O0 -Wall -march=pentium4 -mmmx -g2 -ggdb")
+    SET(CMAKE_CXX_FLAGS_RELEASE	"-std=c++17 -Wall -o3")
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+    MESSAGE(STATUS "Platform FreeBSD")
+    MESSAGE(STATUS "Compile Tool gcc/g++")
 
     SET(CMAKE_CXX_COMPILER g++)
     SET(CMAKE_C_COMPILER gcc)
