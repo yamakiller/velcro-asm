@@ -1,8 +1,9 @@
-#ifndef _VJIT_ATT_INSTRUCTION_H
-#define _VJIT_ATT_INSTRUCTION_H
+#ifndef _VJIT_ATT_INSTRUCTIONS_H
+#define _VJIT_ATT_INSTRUCTIONS_H
 
 #include <string>
 #include <any>
+#include <atomic>
 
 // MaxOperands is the maximum number of operands an instruction can take.
 #define MAX_OPERANDS 6
@@ -26,6 +27,10 @@ enum InstructionDomain : uint8_t {
 
 class Arch;
 class Instruction {
+	public:
+	    void Free();
+        void clearArgs();
+
     public:
 		void    	*PC;
 		std::string Name;
@@ -35,8 +40,10 @@ class Instruction {
 		BranchType  Branch;
 		InstructionDomain Domain;
     private:
-        int64_t m_refs;
-		Arch *  m_arch;
+        std::atomic_int64_t  m_refs;
+		Arch *               m_arch;
 };
 
-#endif 
+
+
+#endif
