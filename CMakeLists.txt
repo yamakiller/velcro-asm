@@ -69,10 +69,17 @@ ELSE()
 ENDIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
 
 FILE (GLOB VELCRO_ASM_SOURCES
-    "asm/arch.h"
-    "asm/arch.cc"
-    "general/error.h"
-    "general/error.cc"
+    "asm/token.h"
+    "asm/token.cc"
+    "asm/punctuation.h"
+    "asm/punctuation.cc"
+    "asm/syntax_error.h"
+    "asm/tokenizer.h"
+    "asm/tokenizer.cc"
+    "utils/xstring.h"
+    "utils/xstring.cc"
+    "utils/xerror.h"
+    "utils/xerror.cc"
     )
 
 
